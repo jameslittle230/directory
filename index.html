@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="input">
+            First: <input type="text" v-model="first" autocomplete="false"><br>
+            Last: <input type="text" v-model="last" autocomplete="false">
+        </div>
+
+        <div class="results">
+            <p>{{ message }}</p>
+            <div v-for="person in answer" class="entry">
+                <div class="image"><img v-bind:src="person.imageUrl" alt=""></div>
+                <div class="other">
+                    <h1>{{ person.firstName }} {{ person.middleName }} {{ person.lastName }}</h1>
+                    <p><i>{{ person.directoryName }}</i></p>
+                    <p>{{ person.email }}</p>
+
+                    <ul>
+                        <li v-for="(value, key) in person.student">{{ key}}: <b>{{ value }}</b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info">
+            <p>The Bowdoin directory sucks. Here's a better one.</p>
+            <p>Made by James Little '19. Get in touch with him for feature requests.</p>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script src="app.js"></script>
+
+<!-- Matomo -->
+<script type="text/javascript">
+    var _paq = _paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//analytics.jameslittle.me/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '4']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+</html>
