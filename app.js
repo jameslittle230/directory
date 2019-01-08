@@ -9,10 +9,12 @@ var app = new Vue({
   watch: {
     // whenever question changes, this function will run
     first: function(newQuestion, oldQuestion) {
+      this.message = "Searching...";
       this.debouncedGetAnswer();
     },
 
     last: function(newQuestion, oldQuestion) {
+      this.message = "Searching...";
       this.debouncedGetAnswer();
     }
   },
@@ -41,12 +43,21 @@ var app = new Vue({
           if (vm.answer.length == 0) {
             vm.message = "No results found.";
           } else {
-            vm.message = "";
+            vm.message = vm.answer.length + " results found.";
           }
         })
         .catch(function(error) {
           vm.answer = "Error! Could not reach the API. " + error;
         });
+    },
+
+    camelCaseToWords: function(str) {
+      return str
+        .match(/^[a-z]+|[A-Z][a-z]*/g)
+        .map(function(x) {
+          return x[0].toUpperCase() + x.substr(1).toLowerCase();
+        })
+        .join(" ");
     }
   }
 });

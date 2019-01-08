@@ -10,33 +10,52 @@
 </head>
 <body>
     <div id="app">
-        <div class="input">
-            First: <input type="text" v-model="first" autocomplete="false"><br>
-            Last: <input type="text" v-model="last" autocomplete="false">
-        </div>
+        <div class="container">
+            <div class="input">
+                <h1 class="title">A Better Bowdoin Directory</h1>
+                <div class="input-row">
+                    <label for="first">First</label>
+                    <input type="text" name="first" v-model="first" autocomplete="false" placeholder="James">
+                </div>
 
-        <div class="results">
-            <p>{{ message }}</p>
-            <div v-for="person in answer" class="entry">
-                <div class="image"><img v-bind:src="person.imageUrl" alt=""></div>
-                <div class="other">
-                    <h1>{{ person.firstName }} {{ person.middleName }} {{ person.lastName }}</h1>
-                    <p><i>{{ person.directoryName }}</i></p>
-                    <p>{{ person.email }}</p>
+                <div class="input-row">
+                    <label for="first">Last</label>
+                    <input type="text" name="last" v-model="last" autocomplete="false" placeholder="Little">
+                </div>
+                <p>{{ message }}</p>
+            </div>
 
-                    <ul>
-                        <li v-for="(value, key) in person.student">{{ key}}: <b>{{ value }}</b></li>
-                    </ul>
+            <div class="results">
+                <div v-for="person in answer" class="entry">
+                    <div class="image" v-if="person.imageName"><img v-bind:src="'https://webapi.bowdoin.edu/images/directory/' + person.imageName + '.jpg'" alt=""></div>
+                    <div class="other">
+                        <h1>{{ person.firstName }} {{ person.middleName }} {{ person.lastName }}</h1>
+                        <p class="directory-name" v-if="!person.hasFacultyPage">{{ person.directoryName }}</p>
+                        <p class="directory-name" v-if="person.hasFacultyPage"><a v-bind:href="person.worker.facultyUrl">{{ person.directoryName }}</a></p>
+                        <div v-if="person.worker">
+                            <p class="position" v-for="position in person.worker.positions"><b>{{position.department}}</b>: {{position.title}}</p>
+                        </div>
+                        <p><a v-bind:href="'mailto:' + person.email">{{ person.email }}</a></p>
+
+                        <ul>
+                            <li v-for="(value, key) in person.student"
+                                v-if="value">{{ camelCaseToWords(key) }}: <b>{{ value }}</b></li>
+                            
+                            <li v-for="(value, key) in person.worker"
+                                v-if="value && key != 'facultyUrl' && key != 'positions'">{{ camelCaseToWords(key) }}: <b>{{ value }}</b></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="info">
-            <p>The Bowdoin directory sucks. Here's a better one.</p>
-            <p>Made by James Little '19. Get in touch with him for feature requests.</p>
+            <div class="info">
+                <p>The Bowdoin directory sucks. Here's a better one.</p>
+                <p>Made by James Little '19. Get in touch with him for feature requests.</p>
+            </div>
         </div>
     </div>
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
