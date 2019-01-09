@@ -47,7 +47,9 @@ var app = new Vue({
           }
         })
         .catch(function(error) {
-          vm.answer = "Error! Could not reach the API. " + error;
+          vm.answer = [];
+          vm.message = "API Error 😢";
+          console.log(error);
         });
     },
 
