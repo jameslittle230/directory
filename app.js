@@ -31,7 +31,9 @@ var app = new Vue({
       }
 
       axios
-        .get("https://webapi.bowdoin.edu/webapi/directory/search", {
+      // Reverse proxy for https://webapi.bowdoin.edu/webapi/directory/search
+      // to add the proper CORS headers to the response
+        .get("https://directory.jil.workers.dev/corsproxy", {
           params: {
             first: vm.first,
             last: vm.last,
